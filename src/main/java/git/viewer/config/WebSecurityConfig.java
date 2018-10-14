@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder> inMemoryAuth = auth.inMemoryAuthentication();
-        users.forEach(user -> inMemoryAuth.withUser(user.getKey())
+        users.entrySet().forEach(user -> inMemoryAuth.withUser(user.getKey())
                 .password("{noop}" + user.getValue())
                 .roles("USER"));
     }
