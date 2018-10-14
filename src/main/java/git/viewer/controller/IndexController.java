@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-public class Index {
+public class IndexController {
 
     @RequestMapping()
     public Map<String,String> index() {

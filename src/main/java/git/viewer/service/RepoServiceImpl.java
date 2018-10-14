@@ -60,13 +60,6 @@ public class RepoServiceImpl implements RepoService {
     }
 
     private List<Repo> getRepos(String user) {
-//        Map<String, String> params = new HashMap<String, String>() {{
-//            put("user", user);
-//            put("updated", String.valueOf(updated));
-//            put("sort", String.valueOf(sort));
-//            put("order", String.valueOf(order));
-//        }};
-        //.of("user", user, "updated", updated, "sort", sort);
         Map<String, String> params = Collections.singletonMap("user", user);
         String uri = UriComponentsBuilder.fromHttpUrl(HTTPS_API_GITHUB_USER_REPOS).buildAndExpand(params).toUriString();
 
