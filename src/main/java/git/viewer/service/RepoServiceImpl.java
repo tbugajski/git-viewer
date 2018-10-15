@@ -4,6 +4,7 @@ import git.viewer.model.Order;
 import git.viewer.model.Repo;
 import git.viewer.model.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class RepoServiceImpl implements RepoService {
     }
 
     @Override
+    @Cacheable(value = "getRepos")
     public List<Repo> getRepos(String user, Boolean updated, Sort sort, Order order) {
         List<Repo> repos = getRepos(user);
         repos = filterUpdated(updated, repos);
@@ -42,9 +44,9 @@ public class RepoServiceImpl implements RepoService {
 
     private List<Repo> sort(Sort sort, Order order, List<Repo> repos) {
         if (sort != null) {
-            if (order != null && order.equals(Order.DESC)) {
+            if (Order.DESC.equals(order)) {
                 repos = repos.stream().sorted(Comparator.comparing(Repo::getName).reversed()).collect(Collectors.toList());
-            } else if (order != null && order.equals(Order.ASC)) {
+            } else if (Order.ASC.equals(order)) {
                 repos = repos.stream().sorted(Comparator.comparing(Repo::getName)).collect(Collectors.toList());
             }
         }
@@ -52,8 +54,8 @@ public class RepoServiceImpl implements RepoService {
     }
 
     private List<Repo> filterUpdated(Boolean updated, List<Repo> repos) {
-        Predicate<Repo> isUpdated = repo -> updated.equals(repo.isUpdated());
         if (updated != null) {
+            Predicate<Repo> isUpdated = repo -> updated.equals(repo.isUpdated());
             repos = repos.stream().filter(isUpdated).collect(Collectors.toList());
         }
         return repos;
