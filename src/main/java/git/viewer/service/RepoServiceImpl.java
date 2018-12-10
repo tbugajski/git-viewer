@@ -14,10 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -42,8 +39,8 @@ public class RepoServiceImpl implements RepoService {
         return repos;
     }
 
-    private List<Repo> sort(Sort sort, Order order, List<Repo> repos) {
-        if (sort != null) {
+    private List<Repo> sort(Optional<Sort> sort, Order order, List<Repo> repos) {
+        if (sort.isPresent()) {
             if (Order.DESC.equals(order)) {
                 repos = repos.stream().sorted(Comparator.comparing(Repo::getName).reversed()).collect(Collectors.toList());
             } else if (Order.ASC.equals(order)) {
