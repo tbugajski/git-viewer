@@ -35,7 +35,7 @@ public class RepoServiceImpl implements RepoService {
     public List<Repo> getRepos(String user, Boolean updated, Sort sort, Order order) {
         List<Repo> repos = getRepos(user);
         repos = filterUpdated(updated, repos);
-        repos = sort(sort, order, repos);
+        repos = sort(Optional.of(sort), order, repos);
         return repos;
     }
 
