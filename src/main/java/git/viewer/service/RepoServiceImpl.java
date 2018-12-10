@@ -78,7 +78,6 @@ public class RepoServiceImpl implements RepoService {
         }
     }
 
-
     //was updated in last 3 months
     private boolean isUpdated(Repo repo) {
         return repo.getUpdatedAt().isAfter(LocalDate.now().minusMonths(3));
